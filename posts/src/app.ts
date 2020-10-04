@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import randomBytes from 'crypto';
 import { BlogPost } from './models/blog-post';
 import cors from 'cors';
+import axios from 'axios';
+import { EventInfo, EventType } from './models/event-info';
 
 const app = express();
 
@@ -26,17 +28,21 @@ app.get('/', (req, res) => {
     res.send("Hola!");
 });
 
-app.post('/posts', (req, res) => {
+app.post('/posts', async (req, res) => {
     const id = randomBytes.randomBytes(4).toString('hex');
     const { title } = req.body;
-    const blogpost = new BlogPost();
-    blogpost.id = id;
-    blogpost.title = title;
-    console.log("post saved");
-    console.log(blogpost);
 
-    blogPosts.set(id, blogpost)
-    res.status(201).send(blogpost);
+    const blogPost = new BlogPost();
+    blogPost.id = id;
+    blogPost.title = title;
+    console.log("post saved");
+    console.log(blogPost);
+
+    const eventInfo = new EventInfo(EventType.PostCreated, blogPost);
+    blogPosts.set(id, blogPost)
+    await axios.post('http://localhost:4005/events', eventInfo);
+
+    res.status(201).send(blogPost);
 });
 
 app.listen(port, (err?: any) => {

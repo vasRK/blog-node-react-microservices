@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BlogPost } from '../../../posts/src/models/blog-post';
 import { CommentCreate } from './comment-create';
+import  {CommentList} from './comment-list';
 
 export function PostList() {
 
@@ -26,6 +27,8 @@ export function PostList() {
             >
                 <div className="card-body">
                     <h4>{blogPost.title}</h4>
+                    <CommentList {...blogPost}/>
+                    <br />
                     <CommentCreate {...blogPost} />
                 </div>
 
