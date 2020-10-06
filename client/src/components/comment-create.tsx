@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BlogPost } from '../../../posts/src/models/blog-post';
-
+import { BlogPost } from 'blog-common';
 export function CommentCreate(blogPost: BlogPost) {
     const [commentText, setCommentText] = useState('');
     const onSubmit = async (event: React.FormEvent<HTMLElement>) => {

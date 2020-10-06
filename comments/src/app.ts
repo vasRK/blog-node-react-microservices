@@ -3,7 +3,8 @@ import bodyParser from 'body-parser';
 import randomBytes from 'crypto';
 import { PostComment } from './models/comment';
 import cors from 'cors';
-import { BlogPost } from '../../posts/src/models/blog-post';
+import axios from 'axios';
+import { BlogPost, EventInfo, EventType } from 'blog-common';
 
 const app = express();
 
@@ -31,12 +32,25 @@ app.post('/posts/:id/comments', (req, res) => {
     const comment = new PostComment();
     comment.id = id;
     comment.text = text;
+    comment.postId = req.params.id;
     console.log("comment saved");
     console.log(comment);
     const comments = blogPostComments.get(req.params.id) || new Array<PostComment>();
     comments.push(comment);
-    blogPostComments.set(req.params.id, comments)
+    blogPostComments.set(req.params.id, comments);
+
+    const eventInfo = new EventInfo(EventType.PostCreated, comment);
+
+    axios.post('http://localhost:4005/events', comment);
     res.status(201).send(comments);
+});
+
+app.post('/events', (req, res) => {
+    const { eventInfo } = req.body;
+
+    console.log("eventInfo:");
+    console.log(eventInfo);
+    res.send({});
 });
 
 app.listen(port, (err?: any) => {

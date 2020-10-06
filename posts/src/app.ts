@@ -1,10 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import randomBytes from 'crypto';
-import { BlogPost } from './models/blog-post';
 import cors from 'cors';
 import axios from 'axios';
-import { EventInfo, EventType } from './models/event-info';
+import { BlogPost, EventInfo, EventType } from 'blog-common';
 
 const app = express();
 
@@ -13,9 +12,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(cors());
-
-//app.use(bodyParser);
-
 const port = 4000;
 const blogPosts = new Map<string, BlogPost>();
 app.get('/posts', (req, res) => {
@@ -43,6 +39,14 @@ app.post('/posts', async (req, res) => {
     await axios.post('http://localhost:4005/events', eventInfo);
 
     res.status(201).send(blogPost);
+});
+
+app.post('/events', (req, res) => {
+    const { eventInfo } = req.body;
+
+    console.log("eventInfo:");
+    console.log(eventInfo);
+    res.send({});
 });
 
 app.listen(port, (err?: any) => {

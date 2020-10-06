@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BlogPost } from '../../../posts/src/models/blog-post';
+import { BlogPost } from 'blog-common';
 import { CommentCreate } from './comment-create';
 import  {CommentList} from './comment-list';
 

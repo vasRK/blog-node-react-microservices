@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { PostComment } from '../../../comments/src/models/comment';
-import { BlogPost } from '../../../posts/src/models/blog-post';
+import { BlogPost, PostComment } from 'blog-common';
 
 export function CommentList(blogPost: BlogPost) {
 
