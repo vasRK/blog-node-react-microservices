@@ -37,7 +37,7 @@ app.post('/posts/:id/comments', async (req, res) => {
     console.log(comment);
     const comments = blogPostComments.get(req.params.id) || new Array<PostComment>();
     comments.push(comment);
-    const eventInfo = new EventInfo(EventType.CommentCreate, comment);
+    const eventInfo = new EventInfo(EventType.CommentCreated, comment);
     blogPostComments.set(req.params.id, comments);
 
     await axios.post('http://localhost:4005/events', eventInfo);

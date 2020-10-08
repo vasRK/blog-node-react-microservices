@@ -37,7 +37,7 @@ app.post('/events', (req, res) => {
         blogPostMap.set(blogPost.id, blogPost);
     }
 
-    if (eventInfo.type === EventType.CommentCreate) {
+    if (eventInfo.type === EventType.CommentCreated) {
         const comment: PostComment = eventInfo.eventData;
         const blogPost = blogPostMap.get(comment.postId);
         blogPost.comments.push(comment);
