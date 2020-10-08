@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     res.send("Hola! comments");
 });
 
-app.post('/posts/:id/comments', (req, res) => {
+app.post('/posts/:id/comments', async (req, res) => {
     const id = randomBytes.randomBytes(4).toString('hex');
     const { text } = req.body;
     const comment = new PostComment();
@@ -37,18 +37,16 @@ app.post('/posts/:id/comments', (req, res) => {
     console.log(comment);
     const comments = blogPostComments.get(req.params.id) || new Array<PostComment>();
     comments.push(comment);
+    const eventInfo = new EventInfo(EventType.CommentCreate, comment);
     blogPostComments.set(req.params.id, comments);
 
-    const eventInfo = new EventInfo(EventType.PostCreated, comment);
-
-    axios.post('http://localhost:4005/events', comment);
+    await axios.post('http://localhost:4005/events', eventInfo);
     res.status(201).send(comments);
 });
 
 app.post('/events', (req, res) => {
-    const { eventInfo } = req.body;
-
-    console.log("eventInfo:");
+    const eventInfo = req.body;
+    console.log("eventInfo: comment-service");
     console.log(eventInfo);
     res.send({});
 });

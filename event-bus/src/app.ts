@@ -17,15 +17,15 @@ app.get('/', (req, res) => {
     res.send("Hola! event-bus");
 });
 
-app.post('/events', (req, res) => {
+app.post('/events', async (req, res) => {
     const eventInfo = req.body;
 
-    console.log("Event Occured");
+    console.log("Event Occured:event-bus");
     console.log(eventInfo);
 
-    axios.post('http://localhost:4000/events', eventInfo);
-    axios.post('http://localhost:4001/events', eventInfo);
-    axios.post('http://localhost:4002/events', eventInfo);
+   await axios.post('http://localhost:4000/events', eventInfo);
+   await axios.post('http://localhost:4001/events', eventInfo);
+   await axios.post('http://localhost:4003/events', eventInfo);
 
     res.send({ status: 'OK' });
 });

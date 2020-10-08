@@ -42,9 +42,9 @@ app.post('/posts', async (req, res) => {
 });
 
 app.post('/events', (req, res) => {
-    const { eventInfo } = req.body;
+    const  eventInfo  = req.body;
 
-    console.log("eventInfo:");
+    console.log("eventInfo: post-service");
     console.log(eventInfo);
     res.send({});
 });
