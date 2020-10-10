@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "client"
+		},
+		{
+			"path": "comments"
+		},
+		{
+			"path": "posts"
+		},
+		{
+			"path": "event-bus"
+		},
+		{
+			"path": "query-service"
+		},
+		{
+			"path": "moderation"
+		}
+	],
+	"settings": {}
+}

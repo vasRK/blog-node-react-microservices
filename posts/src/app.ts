@@ -35,7 +35,8 @@ app.post('/posts', async (req, res) => {
     console.log(blogPost);
 
     const eventInfo = new EventInfo(EventType.PostCreated, blogPost);
-    blogPosts.set(id, blogPost)
+    blogPosts.set(id, blogPost);
+    
     await axios.post('http://localhost:4005/events', eventInfo);
 
     res.status(201).send(blogPost);

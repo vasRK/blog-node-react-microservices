@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import randomBytes from 'crypto';
-import { PostComment } from './models/comment';
 import cors from 'cors';
 import axios from 'axios';
-import { BlogPost, EventInfo, EventType } from 'blog-common';
+import { BlogPost, EventInfo, EventType, PostComment } from 'blog-common';
+import { CommentState } from 'blog-common/lib/models/post-comment';
 
 const app = express();
 
@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const port = 4001;
+//PostId, List of comments
 const blogPostComments = new Map<string, Array<PostComment>>();
 app.get('/posts/:id/comments', (req, res) => {
     const bp = new BlogPost();
@@ -33,6 +34,8 @@ app.post('/posts/:id/comments', async (req, res) => {
     comment.id = id;
     comment.text = text;
     comment.postId = req.params.id;
+    comment.state = CommentState.Pending;
+
     console.log("comment saved");
     console.log(comment);
     const comments = blogPostComments.get(req.params.id) || new Array<PostComment>();
@@ -44,10 +47,19 @@ app.post('/posts/:id/comments', async (req, res) => {
     res.status(201).send(comments);
 });
 
-app.post('/events', (req, res) => {
-    const eventInfo = req.body;
+app.post('/events', async (req, res) => {
+    const eventInfo: EventInfo = req.body;
     console.log("eventInfo: comment-service");
     console.log(eventInfo);
+
+    if (eventInfo.type === EventType.CommentModerated) {
+        const updatedComment: PostComment = eventInfo.eventData;
+        const comments = blogPostComments.get(updatedComment.postId);
+        const index = comments.findIndex(cmt => cmt.id === updatedComment.id);
+        comments[index] = updatedComment;
+        eventInfo.type = EventType.CommentUpdated;
+        await axios.post('http://localhost:4005/events', eventInfo);
+    }
     res.send({});
 });
 
