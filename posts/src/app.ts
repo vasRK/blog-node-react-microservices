@@ -21,7 +21,7 @@ app.get('/posts', (req, res) => {
 
 app.get('/', (req, res) => {
     console.log("main hit");
-    res.send("Hola!");
+    res.send("Hola! post service");
 });
 
 app.post('/posts', async (req, res) => {
