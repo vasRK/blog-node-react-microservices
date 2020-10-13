@@ -17,6 +17,9 @@
 		},
 		{
 			"path": "moderation"
+		},
+		{
+			"path": "infra"
 		}
 	],
 	"settings": {}
