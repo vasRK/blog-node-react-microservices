@@ -16,8 +16,8 @@ app.use(cors());
 const port = 4004;
 
 app.get('/', (req, res) => {
-    console.log("main hit comments service");
-    res.send("Hola! comments");
+    console.log("main hit moderation service");
+    res.send("Hola! moderation");
 });
 
 app.post('/events', async (req, res) => {

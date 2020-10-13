@@ -9,6 +9,8 @@ RUN apk update && apk upgrade && \
 
 RUN npm install
 
+COPY ./node_modules/blog-common/ ./node_modules/blog-common/
+
 COPY ./ ./
 
 CMD ["npm", "start"]
