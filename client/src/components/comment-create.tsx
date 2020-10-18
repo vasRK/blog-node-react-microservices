@@ -6,7 +6,7 @@ export function CommentCreate(blogPost: BlogPost) {
     const onSubmit = async (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();
 
-        await axios.post(`http://localhost:4001/posts/${blogPost.id}/comments`, {
+        await axios.post(`http://posts.com/posts/${blogPost.id}/comments`, {
             text: commentText
         });
 

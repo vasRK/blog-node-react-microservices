@@ -25,17 +25,16 @@ app.post('/events', async (req, res) => {
 
     console.log("Event Occured:event-bus");
     console.log(eventInfo);
-
     allEvents.push(eventInfo);
 
     //Post service
-    await axios.post('http://localhost:4000/events', eventInfo);
+    await axios.post('http://posts-clusterip-srv:4000/events', eventInfo);
     //Comment service
-    await axios.post('http://localhost:4001/events', eventInfo);
-    //Query service
-    await axios.post('http://localhost:4003/events', eventInfo);
-    //Moderation service
-    await axios.post('http://localhost:4004/events', eventInfo);
+    await axios.post('http://comments-clusterip-srv:4001/events', eventInfo);
+    // //Query service
+    await axios.post('http://query-service-clusterip-srv:4003/events', eventInfo);
+    // //Moderation service
+    await axios.post('http://moderation-clusterip-srv:4004/events', eventInfo);
     res.send({ status: 'OK' });
 });
 

@@ -16,6 +16,7 @@ const port = 4000;
 const blogPosts = new Map<string, BlogPost>();
 app.get('/posts', (req, res) => {
     const posts = [...blogPosts.values()];
+    console.log('returning posts' + posts.length);
     res.send(posts);
 });
 
@@ -24,7 +25,7 @@ app.get('/', (req, res) => {
     res.send("Hola! post service");
 });
 
-app.post('/posts', async (req, res) => {
+app.post('/posts/create', async (req, res) => {
     const id = randomBytes.randomBytes(4).toString('hex');
     const { title } = req.body;
 
@@ -36,14 +37,14 @@ app.post('/posts', async (req, res) => {
 
     const eventInfo = new EventInfo(EventType.PostCreated, blogPost);
     blogPosts.set(id, blogPost);
-    
-    await axios.post('http://localhost:4005/events', eventInfo);
+
+    await axios.post('http://event-bus-clusterip-srv:4005/events', eventInfo);
 
     res.status(201).send(blogPost);
 });
 
 app.post('/events', (req, res) => {
-    const  eventInfo  = req.body;
+    const eventInfo = req.body;
 
     console.log("eventInfo: post-service");
     console.log(eventInfo);

@@ -37,7 +37,7 @@ app.listen(port, async (err?: any) => {
         return console.error(err);
     }
 
-    const response = await axios.get('http://localhost:4005/events') ;
+    const response = await axios.get('http://event-bus-clusterip-srv:4005/events') ;
     const allEvents : Array<EventInfo> = response.data || []
     allEvents.forEach(eventInfo => handleEvent(eventInfo));
 
@@ -52,10 +52,10 @@ const handleEvent = (eventInfo: EventInfo) => {
     if (eventInfo.type === EventType.PostCreated) {
         const blogPost: BlogPost = eventInfo.eventData;
       
-        if( [...blogPostMap.keys()].indexOf( blogPost.id) != -1){
+      //  if([...blogPostMap.keys()].indexOf( blogPost.id) != -1){
             blogPostMap.set(blogPost.id, blogPost);
             blogPost.comments = [];
-        }
+       // }
     }
 
     if (eventInfo.type === EventType.CommentCreated) {

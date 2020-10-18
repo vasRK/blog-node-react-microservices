@@ -30,7 +30,7 @@ app.post('/events', async (req, res) => {
         comment.state = comment.text.includes('orange') ? CommentState.Rejected : CommentState.Aprooved;
         eventInfo.type = EventType.CommentModerated;
 
-        await axios.post('http://localhost:4005/events', eventInfo);
+        await axios.post('http://event-bus-clusterip-srv:4005/events', eventInfo);
     }
 
     res.send({});

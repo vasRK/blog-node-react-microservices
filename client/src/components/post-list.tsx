@@ -9,7 +9,7 @@ export function PostList() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
 
     const fetchPosts = async () => {
-        const request = await axios.get("http://localhost:4003/posts");
+        const request = await axios.get("http://posts.com/posts");
         console.log(request.data);
         setPosts(request.data);
     }

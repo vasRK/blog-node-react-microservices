@@ -43,7 +43,7 @@ app.post('/posts/:id/comments', async (req, res) => {
     const eventInfo = new EventInfo(EventType.CommentCreated, comment);
     blogPostComments.set(req.params.id, comments);
 
-    await axios.post('http://localhost:4005/events', eventInfo);
+    await axios.post('http://event-bus-clusterip-srv:4005/events', eventInfo);
     res.status(201).send(comments);
 });
 
@@ -58,7 +58,7 @@ app.post('/events', async (req, res) => {
         const index = comments.findIndex(cmt => cmt.id === updatedComment.id);
         comments[index] = updatedComment;
         eventInfo.type = EventType.CommentUpdated;
-        await axios.post('http://localhost:4005/events', eventInfo);
+        await axios.post('http://event-bus-clusterip-srv:4005/events', eventInfo);
     }
     res.send({});
 });
