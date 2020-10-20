@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"rootDir": "./Scripts/ES6/",
+		"outDir": "./Scripts/Build/Temp/",
+		"lib": [
+			"DOM",
+			"ES2015",
+			"ES6",
+			"ES2016",
+			"ES2018"
+		],
+		"noImplicitAny": true,
+		"target": "ES5",
+		"module": "CommonJS",
+		"allowJs": true,
+		"baseUrl": ".",
+		"paths": {
+			"*": [
+				"./node_modules/@types/*"
+			]
+		}
+	},
+	"include": [
+		"./Scripts/ES6/**/*.ts"
+	],
+	"exclude": [
+		"node_modues"
+	]
+}
